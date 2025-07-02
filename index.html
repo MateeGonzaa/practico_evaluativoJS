@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./images/logo.png" type="image/x-icon">
+    <title>Gestor de Libros</title>
+</head>
+<body>
+    <h1>Mi Biblioteca</h1>
+
+    <form id="formLibro">
+      <input type="hidden" id="editIndex">
+      <input type="text" id="titulo" placeholder="Titulo" required>
+      <input type="text" id="autor" placeholder="Autor" required>
+      <input type="number" id="anio" placeholder="Año de publicacion" required>
+      <select id="genero" required>
+        <option value="">Genero</option>
+        <option>Ficcion</option>
+        <option>Terror</option>
+        <option>Drama</option>
+        <option>Poesia</option>
+        <option>Romance</option>
+        <option>Comedia</option>
+      </select>
+      <button type="submit">Guardar libro</button>
+    </form>
+  
+    <div class="filtros">
+      <input type="text" id="filtroTitulo" placeholder="Buscar por titulo">
+      <select id="filtroGenero">
+        <option value="">Filtrar por genero</option>
+      </select>
+      <button id="ordenarBtn">Ordenar por año</button>
+    </div>
+  
+    <table id="tablaLibros">
+      <thead>
+        <tr>
+          <th>Guardados</th>
+          <th>Titulo</th>
+          <th>Autor</th>
+          <th>Año</th>
+          <th>Genero</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  
+    <div class="estadisticas" id="estadisticas"></div>
+    <script src="./js/script.js"></script>
+</body>
+</html>
