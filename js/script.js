@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     const total = libros.length;
-    const promedio = libros.reduce((sum, libro) => sum + libro.anio) / total;
+    const promedio = libros.reduce((sum, libro) => sum + libro.anio,0) / total;
     const posteriores2010 = libros.filter(a => a.anio > 2010).length;
     const antiguo = libros.reduce((a, b) => a.anio < b.anio ? a : b);
     const reciente = libros.reduce((a, b) => a.anio > b.anio ? a : b);
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const noLeidos = total - leidos;
 
     estadisticas.innerHTML = `
-    Resumen de libros:
+      Resumen de libros:
       Total: ${total}<br>
       Promedio año: ${promedio.toFixed(2)}<br>
       Posteriores a 2010: ${posteriores2010}<br>
