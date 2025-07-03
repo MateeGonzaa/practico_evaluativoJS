@@ -18,6 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
   filtroGenero.addEventListener("change", mostrarLibros);
   document.getElementById("ordenarBtn").addEventListener("click", ordenarPorAnio);
 
+  function sanitize(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
+}
+  
   function guardarLibro(e) {
     e.preventDefault();
     const nuevo = {
@@ -70,10 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
         <td>${b + 1}</td>
-        <td>${santize(a.titulo)}</td>
-        <td>${santize(a.autor)}</td>
-        <td>${santize(a.anio)}</td>
-        <td>${santize(a.genero)}</td>
+        <td>${sanitize(a.titulo)}</td>
+        <td>${sanitize(a.autor)}</td>
+        <td>${sanitize(a.anio)}</td>
+        <td>${sanitize(a.genero)}</td>
         <td>
           <button onclick="editar(${b})">Editar</button>
           <button onclick="eliminar(${b})">Eliminar</button>
