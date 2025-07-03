@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "/": '&#x2F;',
   };
   const reg = /[&<>"'/]/ig;
-  return string.replace(reg, (match)=>(map[match]));
+  return string.replaceAll(reg, (match)=>(map[match]));
 }
   
   function guardarLibro(e) {
