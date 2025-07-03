@@ -70,10 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const fila = document.createElement("tr");
       fila.innerHTML = `
         <td>${b + 1}</td>
-        <td>${a.titulo}</td>
-        <td>${a.autor}</td>
-        <td>${a.anio}</td>
-        <td>${a.genero}</td>
+        <td>${santize(a.titulo)}</td>
+        <td>${santize(a.autor)}</td>
+        <td>${santize(a.anio)}</td>
+        <td>${santize(a.genero)}</td>
         <td>
           <button onclick="editar(${b})">Editar</button>
           <button onclick="eliminar(${b})">Eliminar</button>
