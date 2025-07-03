@@ -18,27 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
   filtroGenero.addEventListener("change", mostrarLibros);
   document.getElementById("ordenarBtn").addEventListener("click", ordenarPorAnio);
 
-  function sanitize(string) {
-  const map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#x27;',
-      "/": '&#x2F;',
-  };
-  const reg = /[&<>"'/]/ig;
-  return string.replaceAll(reg, (match)=>(map[match]));
-}
-  
   function guardarLibro(e) {
     e.preventDefault();
     const nuevo = {
       titulo: titulo.value.trim(),
       autor: autor.value.trim(),
       anio: parseInt(anio.value),
-      genero: genero.value,
-      leido: false 
+      genero: genero.value
     };
 
     if (!nuevo.titulo || !nuevo.autor || !nuevo.anio || !nuevo.genero)
@@ -69,92 +55,79 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("libros", JSON.stringify(libros));
     mostrarLibros();
   }
+function mostrarLibros() {
+  tabla.innerHTML = "";
+  const texto = filtroTitulo.value.toLowerCase();
+  const generoSel = filtroGenero.value;
+  const filtrados = libros.filter(a =>
+    a.titulo.toLowerCase().includes(texto) &&
+    (!generoSel || a.genero === generoSel)
+  );
 
-  function mostrarLibros() {
-    tabla.innerHTML = "";
-    const texto = filtroTitulo.value.toLowerCase();
-    const generoSel = filtroGenero.value;
-    const filtrados = libros.filter(a =>
-      a.titulo.toLowerCase().includes(texto) &&
-      (!generoSel || a.genero === generoSel)
-    );
-
-    filtrados.forEach((a, b) => {
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-        <td>${b + 1}</td>
-        <td>${sanitize(a.titulo)}</td>
-        <td>${sanitize(a.autor)}</td>
-        <td>${sanitize(a.anio)}</td>
-        <td>${sanitize(a.genero)}</td>
-        <td>
-          <button onclick="editar(${b})">Editar</button>
-          <button onclick="eliminar(${b})">Eliminar</button>
-          <button onclick="marcarLeido(${b})">${a.leido ? 'Marcar no leído' : 'Marcar leído'}</button>
-        </td>
-      `;
-      tabla.appendChild(fila);
-    });
-
-    actualizarGeneros();
-    mostrarEstadisticas();
-  }
-
-  window.editar = (a) => {
-    const b = libros[a];
-    titulo.value = b.titulo;
-    autor.value = b.autor;
-    anio.value = b.anio;
-    genero.value = b.genero;
-    editIndex.value = a;
-  };
-
-  window.eliminar = (a) => {
-    if (confirm("¿Eliminar este libro?")) {
-      libros.splice(a, 1);
-      guardarYMostrar();
-    }
-  };
-
-  window.marcarLeido = (index) => {
-    libros[index].leido = !libros[index].leido; 
-    guardarYMostrar(); 
-  };
-
-  function actualizarGeneros() {
-    filtroGenero.innerHTML = '<option value="">Filtrar por género</option>';
-  }
-
-  function mostrarEstadisticas() {
-    if (!libros.length) {
-      estadisticas.innerText = "No hay libros registrados.";
-      return;
-    }
-    const total = libros.length;
-    const promedio = libros.reduce((sum, libro) => sum + libro.anio,0) / total;
-    const posteriores2010 = libros.filter(a => a.anio > 2010).length;
-    const antiguo = libros.reduce((a, b) => a.anio < b.anio ? a : b);
-    const reciente = libros.reduce((a, b) => a.anio > b.anio ? a : b);
-    const leidos = libros.filter(libro => libro.leido).length;
-    const noLeidos = total - leidos;
-
-    estadisticas.innerHTML = `
-      Resumen de libros:
-      Total: ${total}<br>
-      Promedio año: ${promedio.toFixed(2)}<br>
-      Posteriores a 2010: ${posteriores2010}<br>
-      Más antiguo: ${antiguo.titulo} (${antiguo.anio})<br>
-      Más reciente: ${reciente.titulo} (${reciente.anio})<br>
-      Libros leídos: ${leidos}<br>
-      Libros no leídos: ${noLeidos}
+  filtrados.forEach((a, b) => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${b + 1}</td>
+      <td>${a.titulo}</td>
+      <td>${a.autor}</td>
+      <td>${a.anio}</td>
+      <td>${a.genero}</td>
+      <td>
+        <button onclick="editar(${b})">Editar</button>
+        <button onclick="eliminar(${b})">Eliminar</button>
+      </td>
     `;
-  }
+    tabla.appendChild(fila);
+  });
 
-  function ordenarPorAnio() {
-    libros.sort((a, b) => ordenAsc ? a.anio - b.anio : b.anio - a.anio);
-    ordenAsc = !ordenAsc;
-    mostrarLibros();
-  }
+  actualizarGeneros();
+  mostrarEstadisticas();
+}
 
+window.editar = (a) => {
+  const b = libros[a];
+  titulo.value = b.titulo;
+  autor.value = b.autor;
+  anio.value = b.anio;
+  genero.value = b.genero;
+  editIndex.value = a;
+};
+
+window.eliminar = (a) => {
+  if (confirm("¿Eliminar este libro?")) {
+    libros.splice(a, 1);
+    guardarYMostrar();
+  }
+};
+
+function actualizarGeneros() {
+  filtroGenero.innerHTML = '<option value="">Filtrar por género</option>';
+}
+
+function mostrarEstadisticas() {
+  if (!libros.length) {
+    estadisticas.innerText = "No hay libros registrados.";
+    return;
+  }
+  const total = libros.length;
+  const Promedio=( libros((a, b) => a + b.anio, 0) / total);
+  const posteriores2010 = libros.filter(a => a.anio > 2010).length;
+  const antiguo = libros((a, b) => a.anio < b.anio ? a : b);
+  const reciente = libros((a, b) => a.anio > b.anio ? a : b);
+
+  estadisticas.innerHTML = `
+    Total: ${total}<br>
+    Promedio año: ${promedio}<br>
+    Posteriores a 2010: ${posteriores2010}<br>
+    Más antiguo: ${antiguo.titulo} (${antiguo.anio})<br>
+    Más reciente: ${reciente.titulo} (${reciente.anio})
+  `;
+}
+
+function ordenarPorAnio() {
+  libros.sort((a, b) => ordenAsc ? a.anio - b.anio : b.anio - a.anio);
+  ordenAsc = !ordenAsc;
+  mostrarLibros();
+}
   mostrarLibros();
 });
