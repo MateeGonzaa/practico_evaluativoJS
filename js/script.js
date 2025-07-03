@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const noLeidos = total - leidos;
 
     estadisticas.innerHTML = `
+    Resumen de libros:
       Total: ${total}<br>
       Promedio año: ${promedio.toFixed(2)}<br>
       Posteriores a 2010: ${posteriores2010}<br>
