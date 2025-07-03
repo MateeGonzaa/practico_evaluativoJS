@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       autor: autor.value.trim(),
       anio: parseInt(anio.value),
       genero: genero.value,
-      leido: false // Nuevo campo para indicar si el libro ha sido leído
+      leido: false 
     };
 
     if (!nuevo.titulo || !nuevo.autor || !nuevo.anio || !nuevo.genero)
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     const total = libros.length;
-    const promedio = libros.reduce((sum, libro) => sum + libro.anio, 0) / total;
+    const promedio = libros.reduce((sum, libro) => sum + libro.anio) / total;
     const posteriores2010 = libros.filter(a => a.anio > 2010).length;
     const antiguo = libros.reduce((a, b) => a.anio < b.anio ? a : b);
     const reciente = libros.reduce((a, b) => a.anio > b.anio ? a : b);
